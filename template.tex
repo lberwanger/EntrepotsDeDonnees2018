@@ -1,0 +1,75 @@
+\documentclass[11pt]{article}
+
+\usepackage{a4wide}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\usepackage{ulem}					% zum Unterstreichen
+
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}				% für Eurozeichen etc.
+\usepackage[french]{babel} 		% Für Deutsche " etc.
+\usepackage{xspace} 				% Setzt Leerzeichen richtig
+\usepackage[none]{hyphenat} 		% Schaltet Silbentrennung aus
+\sloppy								% Erzwingt Blocksatz (aber größerer Wortabstand)
+
+\usepackage{tabularx}				% modifizierte Tabellen
+\usepackage{graphicx}				% Grafiken einbinden
+\usepackage{enumitem}				% für Aufzähluingen, Listen
+
+\usepackage{amsmath}				% Schickes Mathe-Krams
+\usepackage{amssymb}				% Symbolik (Mengensymbole, etc.)
+\usepackage{amstext}				% erlaubt es, im Mathemodus mit den Befehl \text{..} für Fließtext zu schreiben
+\usepackage{amsthm}					% für beweise
+\usepackage{mathtools}				% erlaubt das Schreiben von Wörtern über/unter Pfeilen
+\usepackage{polynom}				% berechnet Polynomdivision automatisch
+\usepackage{esvect}					% schicke Vektorpfeile "\vv{..}"
+\usepackage{nicefrac}				% Für Quotientenraum
+
+\usepackage{cancel}					% Für Durchstreichungen
+\usepackage{arydshln}				% Für gestrichelte Linien
+
+\usepackage{listings}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+commentstyle=\color{mygreen},
+keywordstyle=\color{blue},
+numberstyle=\tiny\color{red}}
+
+\setlength{\parindent}{0em} 		% Einrückung der ersten Zeile in einem Absatz
+\setlength{\parskip}{1em} 			% Abstand eines Absatz zum nächsten
+
+% EIGENE KOMMANDOS
+\newcommand{\define}{\textbf{\textit{Definition: }}}
+\newcommand{\inv}[1]{\overline{#1}}
+\newcommand{\wo}{\textbackslash}
+\newcommand{\zbN}{\mathbb{N}}
+\newcommand{\zbZ}{\mathbb{Z}}
+\newcommand{\zbQ}{\mathbb{Q}}
+\newcommand{\zbR}{\mathbb{R}}
+\newcommand{\zbC}{\mathbb{C}}
+\newcommand{\metaInfo}[4]{
+	\begin{tabularx}{\textwidth}{rXrl}
+	\hline \\
+	\textbf{Groupe:}	& #1 &  \textbf{Rendu le:}   & #2 \\
+	\\ \hline
+	\end{tabularx}
+}
+\newcommand{\heading}[2]{
+	\begin{center}
+	\section*{#1}
+	\section*{#2}
+	\end{center}
+}
+
+
+\begin{document}
+\heading{Mini-Projet: Entrepôts de Données}{AirBNB}
+\metaInfo{Leonie Berwanger, Tahani Qattan,\newline Leila Rekkab, Khady Ajna Thiam}{\today}
+
+\section{}
+
+\end{document}

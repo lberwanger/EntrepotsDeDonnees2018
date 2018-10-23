@@ -77,8 +77,8 @@ numberstyle=\tiny\color{red}}
 \begin{itemize}
 	\item Réservation d'un logement
 	\item Annulation
-	\item Recherche sur le plateforme
-	\item Rajout d'un nouveau logement/ d'un nouveau compte d'usageur
+	\item Recherche sur la plateforme
+	\item Rajout d'un nouveau compte d'usageur/ d'un nouveau logement
 \end{itemize}
 \subsection{Pour chaque opération: trois traitements possibles permettant d’aider à la prise de décision sur le sujet.}
 \subsubsection*{Réservation d'un logement}
@@ -89,19 +89,29 @@ numberstyle=\tiny\color{red}}
 \end{itemize}
 \subsubsection*{Annulation}
 \begin{itemize}
+	\item Est-ce que les clients qui ont eu une annulation changent leur comportement, c'est à dire la fréquence avec laquelle ils utilisent AirBNB ou les types de logements qu'ils préfèrent?
 	\item Est-ce que les mesures à pénaliser les annulations ont un effet découvrable?
 	\item  Quels sont les paramètres qui peuvent provoquer une annulation?
-	\item 
 \end{itemize}
+\subsubsection*{Recherche sur la plateforme}
+\subsubsection*{Rajout d'un nouveau compte d'utilisateur/ d'un nouveau logement}
 \subsection{L'ordre d'importance}
-
-
+Les actions peuvent rester dans l'ordre selon lequel elles sont énumérées au début: Le succès de la plateforme ne peut pas effectivement être mesuré à partir du nombre de nouveaux comptes et de recherches conduites sur le site web, c'est les réservations qui gagnent de l'argent à AirBNB et qui doivent alors en tout cas être analysées. 
+En plus du but d'augmenter le nombre de réservations, la plateforme doit prendre soin de minimiser le nombre d'annulations qui diminuent le profit et pourraient décourager les clients, c'est pourquoi les annulations prennent le deuxième rang.
 \section{Conception de l'entrepôt}
 \subsection{Les deux actions les plus importantes à analyser}
+Le chiffre d'affaires d'AirBNB est directement déterminé par le nombre de réservations réalisées, parce que la plateforme prélève des frais de service au-delà du prix défini par le logeur. AirBNB a alors l'objectif d'arranger plus de réservations. Quand une réservation est annulée, par contre, AirBNB est souvent obligée de rembourser ces frais et les hôtes et clients pourraient être désormais découragés d'utiliser la plateforme. C'est alors ici qu'on veut optimiser les opérations afin de gagner plus d'argent. Les deux autres actions mentionnées dans nos considérations préliminaires ne sont que des stations sur le chemin vers une réservation, alors si l'on veut considérer seulement deux actions, elles ne sont pas si importantes.
 \subsection{Réservation d'un logement}
-
+\begin{figure}[h]
+	\centering
+	\includegraphics*[width=7cm]{img/modele_etoile.jpg}
+	\caption{Modèle en étoile}
+\end{figure}
+\subsubsection*{La table des faits}
+\subsubsection*{Les mesures}
 \subsection{Annulation}
-
+\subsubsection*{La table des faits}
+\subsubsection*{Les mesures}
 \subsection{Les dimensions}
 
 \subsection{Répondre aux traitements}

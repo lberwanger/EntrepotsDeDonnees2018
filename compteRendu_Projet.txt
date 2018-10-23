@@ -1,0 +1,42 @@
+Répondre aux questions suivantes.
+
+1. Indiquez les actions / opérations importantes pour le sujet que vous allez considérer:
+-Réservation d'un logement par un client 
+-Offre d'un logement par un hôte 
+-Annulation d'une réservation   
+
+2. Pour chaque action / opération, proposez trois traitements possibles (i.e., requêtes analytiques) permettant d’aider à la prise de décision sur le sujet.
+
+-->Réservation d'un logement par un client
+	a- Le prix moyen des differents logements réservés par type
+	b- Le prix moyen des differents logements réservés par ville 
+	c- Nombre de reservation par ville et par type de logement 
+
+-->Offre d'un logement par un hôte
+	a- La disponibilité des logements par ville 
+	b- Le type de logements le plus offert 
+	c- Le prix moyen par nuitée proposé par type de logement offert
+
+-->-Annulation d'une réservation 
+	a- Les differentes raisons d'annulation 
+	b- Les hôtes les plus exposés aux annulations
+
+3. Ordonnez les actions par ordre d’importance / rentabilité potentielle (e.g., augmentation des ventes vs. utilisation optimale de l’espace de stockage dans le magasin).
+
+	***Réservation d'un logement par un client: Permet d'augmenter la rentabilité de la plateforme
+	**Offre d'un logement par un Hôte : Permet d'augementer le nombre de logememnt offerts et par conséquent l'augmentation du nombre de réservation 
+	*Annulation d'une réservation par un client: Permet de retirer de l'espace de stockage de la plateform les logements qui ne sont fiable.
+____________________________________________________________________________________
+
+1) La conception
+
+4. Identifiez les deux actions / opérations les plus importantes à analyser
+	a-Réservation d'un logement par un client
+	b-Offre d'un logement par un Hôte
+
+5. Pour chaque actions / opérations, concevez un data-mart indépendant (c’est à dire, un modèle en étoile)
+	a-Modèle en étoile Table de fait en image ' reservationFait'
+	b-snapShot ' offre' pour la requête 
+ 
+
+

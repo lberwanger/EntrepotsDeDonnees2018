@@ -1,0 +1,13 @@
+CREATE TABLE Localisation (
+	idLocalisation VARCHAR2(200) PRIMARY KEY,
+	Rue VARCHAR2(100),
+	Region VARCHAR2(100),
+	Ville VARCHAR2(100),
+	codePostal VARCHAR2(20),
+	pays VARCHAR2(100),
+	latitude NUMBER(10,2),
+	CONSTRAINT lat CHECK(latitude BETWEEN 0.00 AND 90.00),
+	longitude NUMBER(10,2),
+	CONSTRAINT long CHECK(longitude BETWEEN -180.00 AND 180.00),
+	codePays VARCHAR2(100)
+);

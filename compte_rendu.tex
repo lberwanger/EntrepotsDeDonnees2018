@@ -75,63 +75,91 @@ numberstyle=\tiny\color{red}}
 \section{Considérations préliminaires}
 \subsection{Quelles sont les actions/opérations importantes pour la plateforme de locations de vacances AirBNB?}
 \begin{itemize}
-	\item Réservation d'un logement
-	\item Annulation
-	\item Recherche sur la plateforme
-	\item Rajout d'un nouveau compte d'usageur/ d'un nouveau logement
+	\item Réservation d'un logement par un client
+	\item Offre d'un logement par un hôte
+	\item Annulation d'une réservation
 \end{itemize}
 \subsection{Pour chaque opération: trois traitements possibles permettant d’aider à la prise de décision sur le sujet.}
-\subsubsection*{Réservation d'un logement}
+\subsubsection*{Réservation d'un logement par un client}
 \begin{itemize}
-	\item Est-ce qu'il est plus raisonnable pour les hôtes d'offrir une réservation directe sans confirmation obligatoire de leur côté?
-	\item Quels sont les prix moyens pour les différents types de logements par ville (par saison)?
-	\item Est-ce que la réduction offerte lorsqu'on invite d'autres utilisateurs est utile à apporter plus de réservations à la plateforme?
+	\item Le prix moyen (/nuit) des differents logements réservés par type
+	\item Le prix moyen (/nuit) des differents logements réservés par ville
+	\item Nombre de reservations par ville et par type de logement
 \end{itemize}
-\subsubsection*{Annulation}
+\subsubsection*{Offre d'un logement par un hôte}
 \begin{itemize}
-	\item Est-ce que les clients qui ont eu une annulation changent leur comportement, c'est à dire la fréquence avec laquelle ils utilisent AirBNB ou les types de logements qu'ils préfèrent?
-	\item Est-ce que les mesures à pénaliser les annulations ont un effet découvrable?
-	\item  Quels sont les paramètres qui peuvent provoquer une annulation?
+	\item La disponibilité des logements par ville 
+	\item Le type de logements le plus offert 
+	\item Le prix moyen par nuit proposé par type de logement offert
 \end{itemize}
-\subsubsection*{Recherche sur la plateforme}
-\subsubsection*{Rajout d'un nouveau compte d'utilisateur/ d'un nouveau logement}
+\subsubsection*{Annulation d'une réservation}
+\begin{itemize}
+	\item Les raisons d'annulations les plus fréquentes
+	\item Les hôtes les plus exposés aux annulations
+\end{itemize}
 \subsection{L'ordre d'importance}
-Les actions peuvent rester dans l'ordre selon lequel elles sont énumérées au début: Le succès de la plateforme ne peut pas effectivement être mesuré à partir du nombre de nouveaux comptes et de recherches conduites sur le site web, c'est les réservations qui gagnent de l'argent à AirBNB et qui doivent alors en tout cas être analysées. 
-En plus du but d'augmenter le nombre de réservations, la plateforme doit prendre soin de minimiser le nombre d'annulations qui diminuent le profit et pourraient décourager les clients, c'est pourquoi les annulations prennent le deuxième rang.
+\begin{enumerate}
+	\item Réservation d'un logement par un client: Permet d'augmenter la rentabilité de la plateforme
+	\item Offre d'un logement par un Hôte : Permet d'augementer le nombre de logememnt offerts et par conséquent l'augmentation du nombre de réservations
+	\item Annulation d'une réservation par un client: Permet de retirer de l'espace de stockage de la plateform les logements qui ne sont pas fiables
+\end{enumerate}
 \section{Conception de l'entrepôt}
 \subsection{Les deux actions les plus importantes à analyser}
-Le chiffre d'affaires d'AirBNB est directement déterminé par le nombre de réservations réalisées, parce que la plateforme prélève des frais de service au-delà du prix défini par le logeur. AirBNB a alors l'objectif d'arranger plus de réservations. Quand une réservation est annulée, par contre, AirBNB est souvent obligée de rembourser ces frais et les hôtes et clients pourraient être désormais découragés d'utiliser la plateforme. C'est alors ici qu'on veut optimiser les opérations afin de gagner plus d'argent. Les deux autres actions mentionnées dans nos considérations préliminaires ne sont que des stations sur le chemin vers une réservation, alors si l'on veut considérer seulement deux actions, elles ne sont pas si importantes.
+\begin{enumerate}
+	\item Réservation d'un logement par un client
+	\item Offre d'un logement par un hôte
+\end{enumerate}
 \subsection{Réservation d'un logement}
 \begin{figure}[h]
 	\centering
-	\includegraphics*[width=7cm]{img/modele_etoile_reservation.jpg}
+	\includegraphics*[width=7cm]{img/reservation.png}
 	\caption{Modèle en étoile des réservations}
 \end{figure}
 
 \subsubsection*{La table des faits}
 Pour enregistrer les réservations, on choisit des faits transactionnels, parce qu'on s'intéresse aux caractéristiques des réservations spécifique et il ne sert à rien de les regrouper à l'avance. La table des faits suit le modèle relationnel suivant:\\
 Reservations(\\
-id\_hote ChaineCar, id\_client ChaineCar,\\
-id\_logement ChaineCar,\\
-id\_dateDebut ChaineCar, id\_dateFin ChaineCar,\\
-id\_promotion ChaineCar,\\
-dureeDuSejour Integer,\\
-prixTotal Float(10,2))
+idLogement ChaineCar,\\
+idLocalisation ChaineCar,\\
+idHote ChaineCar,\\
+idClient ChaineCar,\\
+idPeriode ChaineCar,\\
+nbVoyageurs Integer,\\
+prixReservation Nombre(10,2))
 \subsubsection*{Les mesures}
-\subsection{Annulation}
-\begin{figure}[h]
-	\centering
-	\includegraphics*[width=7cm]{img/modele_etoile_annulation.jpg}
-	\caption{Modèle en étoile}
-\end{figure}
+La table des faits contient les mesures \textit{nbVoyageurs} et \textit{prixReservation}. Ces mesures sont additives, parce qu'elles sont exprimées en nombres et liées à une certaine transaction. 
+\subsection{Offre d'un logement par un hôte}
+Pour les logements offerts on crée une table de snapshots (une période raisonnable serait 1 jour). À la fin d'une période fixe on enregistre le nombre de logements par localisation et type de logement.
 \subsubsection*{La table des faits}
-
+Un fait \textbf{(idLoc, typeLog, idDispo, idCap, j, x)} existe pour chaque combinaison de localisation idLoc, type de logement typeLog, disponibilité idDispo, capacité maximale de voyageurs cap et jour j. La mesure x représente le nombre de logements du type typeLog, au lieu idLoc, disponibles/indisponibles, pouvant reçevoir cap voyageurs le jour j.
 \subsubsection*{Les mesures}
-
+La mesure x est semi-additive, parce qu'on peut p.e. prendre le somme de logements dans toutes les localisations et de tous les types, mais on ne peut pas additionner à travers de la dimension du temps.
 \subsection{Les dimensions}
+Les tables des dimensions suivent le modèle relationnel suivant:\\
+Logement(rf.II.2, 12 attributs)\\
+Localisation(rf.II.2, 9 attributs)\\
+Client(9 attributs)\\
+Hôte(9 attributs)\\
+Periode(6 attributs)\\
+TypeLogement(typeLog ChaineCar, typeName ChaineCar, MotsClés Array<ChaineCar>, termesLégales Array<ChaineCar>, dateRajout Date)\\
+Disponibilité(idDisponibilite ChaineCar, nomDisponibilite ChaineCar, limité Integer[0,1], dernierChangement Integer[0,..,2])\\
+Capacité(idCap, description ChaineCar, nbMinVoyageurs Integer, nbMaxVoyageurs Integer)
 
 \subsection{Répondre aux traitements}
+Le schéma défini permet de répondre aux traitements.
+\subsubsection*{Réservation d'un logement par un client}
+\begin{itemize}
+	\item Un boucle imbriqué qui calcule le prix par nuit pour les réservations,après un GROUP BY typeLog est l'application de la mesure AVG()
+	\item idem, GROUP BY ville
+	\item COUNT(*),GROUP BY typeLog, ville
+\end{itemize}
+\subsubsection*{Offred'un logement par un hôte}
+\begin{itemize}
+	\item 
+	\item SELECT (typeLog,x) FROM FactTableOffres;
+	\item 
+\end{itemize}
 
 \subsection{Un exemple d'instance}
-
+\lstinputlisting[language=sql]{exemple.sql}
 \end{document}

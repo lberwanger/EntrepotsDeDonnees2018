@@ -104,14 +104,30 @@ Le chiffre d'affaires d'AirBNB est directement déterminé par le nombre de rés
 \subsection{Réservation d'un logement}
 \begin{figure}[h]
 	\centering
-	\includegraphics*[width=7cm]{img/modele_etoile.jpg}
+	\includegraphics*[width=7cm]{img/modele_etoile_reservation.jpg}
+	\caption{Modèle en étoile des réservations}
+\end{figure}
+
+\subsubsection*{La table des faits}
+Pour enregistrer les réservations, on choisit des faits transactionnels, parce qu'on s'intéresse aux caractéristiques des réservations spécifique et il ne sert à rien de les regrouper à l'avance. La table des faits suit le modèle relationnel suivant:\\
+Reservations(\\
+id\_hote ChaineCar, id\_client ChaineCar,\\
+id\_logement ChaineCar,\\
+id\_dateDebut ChaineCar, id\_dateFin ChaineCar,\\
+id\_promotion ChaineCar,\\
+dureeDuSejour Integer,\\
+prixTotal Float(10,2))
+\subsubsection*{Les mesures}
+\subsection{Annulation}
+\begin{figure}[h]
+	\centering
+	\includegraphics*[width=7cm]{img/modele_etoile_annulation.jpg}
 	\caption{Modèle en étoile}
 \end{figure}
 \subsubsection*{La table des faits}
+
 \subsubsection*{Les mesures}
-\subsection{Annulation}
-\subsubsection*{La table des faits}
-\subsubsection*{Les mesures}
+
 \subsection{Les dimensions}
 
 \subsection{Répondre aux traitements}

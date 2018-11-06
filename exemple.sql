@@ -1,5 +1,6 @@
+-- create dimension table Localisation as specified
 CREATE TABLE Localisation (
-	idLocalisation VARCHAR2(10) PRIMARY KEY,
+	idLocalisation NUMBER(10) PRIMARY KEY,
 	Rue VARCHAR2(100),
 	Region VARCHAR2(100),
 	Ville VARCHAR2(100),
@@ -8,27 +9,84 @@ CREATE TABLE Localisation (
 	latitude NUMBER(10,7),
 	CONSTRAINT lat CHECK(latitude BETWEEN 0.0 AND 90.0),
 	longitude NUMBER(10,7),
-	CONSTRAINT long CHECK(longitude BETWEEN -180.0 AND 180.0),
+	CONSTRAINT lon CHECK(longitude BETWEEN -180.0 AND 180.0),
 	codePays VARCHAR2(100)
 );
+/* use sequential surrogate keys */
+-- create sequence
+CREATE SEQUENCE local_seq START WITH 1;
+-- and trigger incrementing the id upon each new insertion
+CREATE OR REPLACE TRIGGER local_inc 
+BEFORE INSERT ON Localisation
+FOR EACH ROW
+BEGIN
+  SELECT local_seq.NEXTVAL
+  INTO   :new.idLocalisation
+  FROM   dual;
+END;
+/
 
 INSERT INTO Localisation 
-	VALUES('1','26 Avenue Emile Diacon',
+	VALUES(0,'Avenue Emile Diacon',
 	'Occitanie','Montpellier','34090','France',
 	43.6286172,3.8609373,'FRA');	
 INSERT INTO Localisation
-	VALUES('1','280 Broadway',
+	VALUES(0,'Broadway',
 	'New York','New York City','10007','United States of America',
 	40.7143528, -74.0059731,'USA');
+INSERT INTO Localisation
+	VALUES(0,'Broadway',
+	'New York','New York City','10007','United States of America',
+	40.713808, -74.006809,'USA');
+INSERT INTO Localisation
+	VALUES(0,'Broadway',
+	'New York','New York City','10007','United States of America',
+	40.714934, -74.005843,'USA');
+INSERT INTO Localisation
+	VALUES(0,'Broadway',
+	'New York','New York City','10007','United States of America',
+	40.716658, -74.004403,'USA');
+INSERT INTO Localisation
+	VALUES(0,'Rue de la Cavalade',
+	'Occitanie','Montpellier','34000','France',
+	43.603633, 3.909647,'FRA');
+INSERT INTO Localisation
+	VALUES(0,'Kongens Gate',
+	'Trondelag','Steinkjer','7715','Norway',
+	64.016824, 11.494716,'NO');
+
+alter session set NLS_DATE_FORMAT='dd/mm/yyyy';
 	
-CREATE TYPE typeLog_T AS OBJECT (
-	typeName VARCHAR2(50),
-	...
+CREATE TABLE Dates (
+	idDate NUMBER(10) PRIMARY KEY,
+	dateEntier DATE,
+	description VARCHAR2(20),
+	semaine NUMBER(10),
+	mois VARCHAR2(10),
+	trimestre NUMBER(10),
+	an NUMBER(10),
+	jourSemaine VARCHAR2
+	jourMois NUMBER(10),
+	weekend VARCHAR2(10),
+	feries VARCHAR2(15),
+	saison VARCHAR2(10)
 );
-/
-
-CREATE TABLE typesLogement OF typeLog_T;
-
+	
+ALTER TABLE Dates ADD (
+	CONSTRAINT mo CHECK(mois in 
+	('January','February','March','April','May','June',
+	'July','August','September','October','November','December')),
+	CONSTRAINT tri CHECK(trimestre BETWEEN 1 AND 4),
+	CONSTRAINT wDay CHECK(jourSemaine in
+	('Monday','Tuesday','Wednesday','Thursday','Friday',
+	'Saturday','Sunday'),
+	CONSTRAINT mDay CHECK(jourMois BETWEEN 1 AND 31),	
+	CONSTRAINT weekend CHECK(weekend in ('Weekend','Weekday'),
+	CONSTRAINT holiday CHECK(feries in ('Holiday','Non-Holiday'),
+	CONSTRAINT season CHECK(saison in
+	('Spring','Summer','Fall','Winter')
+);
+	
 
 CREATE TABLE Logement (
 	idLogement VARCHAR2(10) PRIMARY KEY,

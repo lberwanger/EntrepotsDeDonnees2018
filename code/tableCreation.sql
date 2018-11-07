@@ -112,7 +112,7 @@ END;
 /*create shared dimension Utilisateur represented by 
 	the virtual views Hote and Client*/
 CREATE TABLE Utilisateur (
-	idUtilisateur VARCHAR2(10) PRIMARY KEY,
+	idUtilisateur NUMBER(10) PRIMARY KEY,
 	nom VARCHAR2(50),
 	prenom VARCHAR2(50),
 	sexe VARCHAR2(10),
@@ -152,3 +152,12 @@ CREATE  TABLE Reservation (
 	fraisDuTotal NUMBER(10,2),
 	CONSTRAINT feeRatio CHECK (fraisDuTotal BETWEEN 00.00 AND 1.00)
 );
+
+ALTER TABLE Reservation ADD (
+	CONSTRAINT typ FOREIGN KEY (idTypeLogement) REFERENCES typeLogement(idType),
+	CONSTRAINT loco FOREIGN KEY (idLocalisation) REFERENCES Localisation(idLocalisation),
+	CONSTRAINT h FOREIGN KEY (idHote) REFERENCES Utilisateur(idUtilisateur),
+	CONSTRAINT c FOREIGN KEY (idClient) REFERENCES Utilisateur(idUtilisateur),
+	CONSTRAINT dD FOREIGN KEY (idDateDebut) REFERENCES Dates(idDate),
+	CONSTRAINT dF FOREIGN KEY (idDateFin) REFERENCES Dates(idDate)
+);			

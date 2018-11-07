@@ -14,33 +14,32 @@ CREATE TABLE Localisation (
 );
 /* use sequential surrogate keys */
 -- create sequence
-CREATE SEQUENCE local_seq START WITH 1;
+CREATE SEQUENCE loc_seq START WITH 1;
 -- and trigger incrementing the id upon each new insertion
-CREATE OR REPLACE TRIGGER local_inc 
+CREATE OR REPLACE TRIGGER loc_inc 
 BEFORE INSERT ON Localisation
 FOR EACH ROW
 BEGIN
-  SELECT local_seq.NEXTVAL
+  SELECT loc_seq.NEXTVAL
   INTO   :new.idLocalisation
   FROM   dual;
 END;
 /
 
 
-alter session set NLS_DATE_FORMAT='dd/mm/yyyy';
 -- create shared dimension table Dates as specified	
 CREATE TABLE Dates (
 	idDate NUMBER(10) PRIMARY KEY,
 	dateEntier DATE,
 	description VARCHAR2(20),
 	semaine NUMBER(2),
-	mois VARCHAR2(2),
+	mois VARCHAR2(10),
 	trimestre NUMBER(1),
 	an NUMBER(4),
 	jourSemaine VARCHAR2(10),
 	jourMois NUMBER(2),
 	weekend VARCHAR2(10),
-	feries VARCHAR2(10),
+	feries VARCHAR2(11),
 	saison VARCHAR2(10)
 );
 -- add constraints on values
@@ -51,20 +50,20 @@ ALTER TABLE Dates ADD (
 	CONSTRAINT trimester CHECK(trimestre BETWEEN 1 AND 4),
 	CONSTRAINT weekDay CHECK(jourSemaine in
 	('Monday','Tuesday','Wednesday','Thursday','Friday',
-	'Saturday','Sunday'),
+	'Saturday','Sunday')),
 	CONSTRAINT monthDay CHECK(jourMois BETWEEN 1 AND 31),	
-	CONSTRAINT weekend CHECK(weekend in ('Weekend','Weekday'),
-	CONSTRAINT holiday CHECK(feries in ('Holiday','Non-Holiday'),
+	CONSTRAINT weekend CHECK(weekend in ('Weekend','Weekday')),
+	CONSTRAINT holiday CHECK(feries in ('Holiday','Non-Holiday')),
 	CONSTRAINT season CHECK(saison in
-	('Spring','Summer','Fall','Winter')
+	('Spring','Summer','Fall','Winter'))
 );
 -- create sequential ids
-CREATE SEQUENCE date_seq START WITH 1;
-CREATE OR REPLACE TRIGGER date_inc 
+CREATE SEQUENCE dat_seq START WITH 1;
+CREATE OR REPLACE TRIGGER dat_inc 
 BEFORE INSERT ON Dates
 FOR EACH ROW
 BEGIN
-  SELECT date_seq.NEXTVAL
+  SELECT dat_seq.NEXTVAL
   INTO   :new.idDate
   FROM   dual;
 END;
@@ -73,6 +72,8 @@ END;
 	
 CREATE TABLE typeLogement (
 	idType NUMBER(10) PRIMARY KEY,
+	taille VARCHAR2(20),
+	CONSTRAINT sizing CHECK(taille IN ('house','appartment','room')),
 	nbChambres NUMBER(3),
 	CONSTRAINT numberRooms CHECK (nbChambres > 0),
 	nbMinVoyageurs NUMBER(10),
@@ -124,7 +125,7 @@ CREATE TABLE Utilisateur (
 	hote VARCHAR2(10),
 	CONSTRAINT hosting CHECK (hote in ('Host','Non-Host')),
 	superUser VARCHAR2(10),
-	CONSTRAINT isSuperUser CHECK (superUser in ('SuperUser','Basic')
+	CONSTRAINT isSuperUser CHECK (superUser in ('SuperUser','Basic'))
 );
 -- create sequential ids
 CREATE SEQUENCE user_seq START WITH 1;
@@ -149,5 +150,5 @@ CREATE  TABLE Reservation (
 	duree NUMBER(5),
 	prixTotal NUMBER(10,2),
 	fraisDuTotal NUMBER(10,2),
-	CONSTRAINT feeRatio CHECK (fraisDuTotal BETWEEN 00.00 AND 100.00)
+	CONSTRAINT feeRatio CHECK (fraisDuTotal BETWEEN 00.00 AND 1.00)
 );

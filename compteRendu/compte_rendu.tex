@@ -73,14 +73,23 @@ numberstyle=\tiny\color{red}}
 
 \section{}
 \section{Considérations préliminaires}
+Airbnb est une plateforme communautaire qui permet de réserver , en ligne des logements pour des particuliers dans le but d’un séjour pour une période bien déterminée, et ce, à travers le monde entier. 
+La plateforme comporte deux types d'utilisateurs:
+\begin{itemize}
+	\item Hôte: c'est un utilisateur qui offre son logement sur plateforme et sera rémunéré lorsque qu'il reçoit une demande de réservation.
+	\item Client: utilisateur qui effectue une réservation d'un logement pour une periode donnée. 
+\end{itemize}
+Notre interêt repose sur l'analyse du fonctionnement de plateforme, et ainsi parvenir à l'augmentation du chiffre d'affaire de la plateforme. Pour ce faire, nous nous sommes intéréssées à l'analyse des différentes opérations qui peuvent être réaliser par les differents utilisateurs d'Airbnb (offre d'un logementpar un hôte ou réservaation d'un logement par un Client).\\
+Une fois l'analyse effectuée, les anomalies sont detectées, et ainsi des améliorations peuvent être effectuées pour atteindre notre principal objectif qu'est "l'Augmentation du Chiffre d'affaires".
+
 \subsection{Quelles sont les actions/opérations importantes pour la plateforme de locations de vacances AirBNB?}
 \begin{itemize}
-	\item Réservation d'un logement par un client
+	\item Réservation d'un logement
 	\item Offre d'un logement par un hôte
 	\item Annulation d'une réservation
 \end{itemize}
 \subsection{Pour chaque opération: trois traitements possibles permettant d’aider à la prise de décision sur le sujet.}
-\subsubsection*{Réservation d'un logement par un client}
+\subsubsection*{Réservation d'un logement}
 \begin{itemize}
 	\item Le prix moyen (/nuit) des differents logements réservés par type
 	\item Le prix moyen (/nuit) des differents logements réservés par ville
@@ -88,9 +97,9 @@ numberstyle=\tiny\color{red}}
 \end{itemize}
 \subsubsection*{Offre d'un logement par un hôte}
 \begin{itemize}
-	\item Le nombre de logements offerts par des \og Superhosts \fg{} par ville
-	\item Le type de logement le plus offert 
-	\item Le prix de base moyen par nuit proposé par type de logement offert
+	\item Le nombre de logements offerts par des \og Superhosts \fg{} par ville le 2 juillet 2018
+	\item Le type de logement le plus offert le 2 juillet 2018
+	\item Le nombre de logements disponibles le weekend par ville
 \end{itemize}
 \subsubsection*{Annulation d'une réservation}
 \begin{itemize}
@@ -112,12 +121,12 @@ numberstyle=\tiny\color{red}}
 \subsection{Réservation d'un logement}
 \begin{figure}[h]
 	\centering
-	\includegraphics*[width=7cm]{img/reservation.png}
+	\includegraphics*[width=7cm]{../reservationFait_final.jpg}
 	\caption{Modèle en étoile des réservations}
 \end{figure}
 
 \subsubsection*{La table des faits}
-Pour enregistrer les réservations, on choisit des faits transactionnels, parce qu'on s'intéresse aux caractéristiques des réservations spécifique et il ne sert à rien de les regrouper à l'avance. La table des faits suit le modèle relationnel suivant:\\
+Pour enregistrer les réservations, on choisit des faits transactionnels, parce qu'on s'intéresse aux caractéristiques des réservations spécifiques et il ne sert à rien de les regrouper à l'avance. La table des faits suit le modèle relationnel suivant:\\
 Reservations(\\
 idLogement ChaineCar,\\
 idLocalisation ChaineCar,\\
@@ -125,42 +134,64 @@ idHote ChaineCar,\\
 idClient ChaineCar,\\
 idPeriode ChaineCar,\\
 nbVoyageurs Integer,\\
-prixReservation Nombre(10,2))
+duree Nombre(10),\\
+prixTotal Nombre(10,2)\\
+fraisDuTotal Nombre(3,2))
 \subsubsection*{Les mesures}
-La table des faits contient les mesures \textit{nbVoyageurs} et \textit{prixReservation}. Ces mesures sont additives, parce qu'elles sont exprimées en nombres et liées à une certaine transaction. 
+La table des faits contient les mesures \textit{nbVoyageurs}, \textit{duree} et \textit{prixTotal}. Ces mesures sont additives, parce qu'elles sont exprimées en nombres et liées à une certaine transaction. La mesure fraisDuTotal n'est pas additive parce qu'elle représente un pourcentage.
 \subsection{Offre d'un logement par un hôte}
-Pour les logements offerts on crée une table de snapshots (une période raisonnable serait 1 jour). À la fin d'une période fixe on enregistre le nombre de logements par localisation et type de logement.
+Pour les logements offerts on crée une table de snapshots (une période raisonnable serait 1 jour). À la fin d'une période fixe on enregistre le nombre de logements par localisation,type de logement et disponibilité, ça veut dire les créneaux de temps pour lequel l'hôte les ouvre aux clients.
 \subsubsection*{La table des faits}
-Un fait \textbf{(idLoc, typeLog, idDispo, idCap, j, x)} existe pour chaque combinaison de localisation idLoc, type de logement typeLog, disponibilité idDispo, capacité maximale de voyageurs cap et jour j. La mesure x représente le nombre de logements du type typeLog, au lieu idLoc, disponibles/indisponibles, pouvant reçevoir cap voyageurs le jour j.
+Un fait \textbf{(idType, idLocalisation, idDisponibiltite, idHote, j, nombreOffres,pourcentageLoue)} existe pour chaque combinaison de localisation idLocalisation, type de logement idType, disponibilité idDisponibilite, hôte idHote et jour j. La mesure nombreOffres représente le nombre de logements avec ces paramètres offerts et le pourcentage loué mesure l'occupation.
 \subsubsection*{Les mesures}
-La mesure x est semi-additive, parce qu'on peut p.e. prendre le somme de logements dans toutes les localisations et de tous les types, mais on ne peut pas additionner à travers de la dimension du temps.
+La mesure nombreOffres est semi-additive, parce qu'on peut p.e. prendre le somme de logements dans toutes les localisations et de tous les types, mais on ne peut pas additionner à travers de la dimension du temps. Le pourcentage n'est bien sûr pas additif.
 \subsection{Les dimensions}
 Les tables des dimensions suivent le modèle relationnel suivant:\\
-Logement(rf.II.2, 12 attributs)\\
+typesLogement(idType,taille,nbChambres,chezHabitant,nbLits)\\
 Localisation(rf.II.2, 9 attributs)\\
-Client(9 attributs)\\
+Disponibilite(rf. Implementation)
 Hôte(9 attributs)\\
-Periode(6 attributs)\\
-Abstract Type;
-TypeLogement(typeName ChaineCar, MotsClés Array<ChaineCar>, termesLégales Array<ChaineCar>, dateRajout Date) dans une table d'objets\\
-Disponibilité(idDisponibilite ChaineCar, nomDisponibilite ChaineCar, limité Integer[0,1], dernierChangement Integer[0,..,2])\\
-Capacité(idCap, description ChaineCar, nbMinVoyageurs Integer, nbMaxVoyageurs Integer)
+Jour(rf.Dates)
 
-\subsection{Répondre aux traitements}
-Le schéma défini permet de répondre aux traitements.
-\subsubsection*{Réservation d'un logement par un client}
-\begin{itemize}
-	\item Un boucle imbriqué qui calcule le prix par nuit pour les réservations,après un GROUP BY typeLog est l'application de la mesure AVG()
-	\item idem, GROUP BY ville
-	\item COUNT(*),GROUP BY typeLog, ville
-\end{itemize}
-\subsubsection*{Offred'un logement par un hôte}
-\begin{itemize}
-	\item 
-	\item SELECT (typeLog,x) FROM FactTableOffres;
-	\item 
-\end{itemize}
 
-\subsection{Un exemple d'instance}
-\lstinputlisting[language=sql]{exemple.sql}
+\section{Implémentation}
+Dans le fichier \textit{tableCreation.sql} est décrite la création des tables de l'entrepöt. On initialise d'abord les dimensions et après les tables des faits qui en prennent leurs clés primaires.
+\lstinputlisting[language=sql,firstline=2,lastline=101]{../code/tableCreation.sql}
+Nous utilisons des nombres comme SurrogateKeys qui suivent l'ordre des entrées:
+\lstinputlisting[language=sql,firstline=103,lastline=115]{../code/tableCreation.sql}
+Après les tables des faits sont ajoutées et chargées avec des contraintes concernant les clés primaires referencées des tables des dimensions.
+\lstinputlisting[language=sql,firstline=201,lastline=226]{../code/tableCreation.sql}
+Le fichier \textit{insertion.sql} contient un script pour remplir les tables. On a fait attention de respecter l'esprit des entrepôts en entrant beaucoup de valeurs dans les tables des faits pendant que les dimensions restent rélativement plates.
+\subsection{Les requêtes}
+Le code pour les requêtes est contenu dans le fichier \textit{requetes.sql}.\\
+On a d'abord crée les vues virtuelles suivantes pour les dimensions partagées. Pour parler des hôtes par exemple on ne s'intéresse plus à la colonne \textit{hote} de \textit{Utilisateur}, alors elle ne doit pas être intégrée à chaque jointure.
+\lstinputlisting[language=sql,firstline=1,lastline=15]{../code/requetes.sql}
+\subsection*{Requêtes analytiques: Reservations}
+\subsubsection*{Le prix moyen (/nuit) des differents logements réservés par type de logement reservé}
+\lstinputlisting[language=sql,firstline=18,lastline=22]{../code/requetes.sql}
+\underline{Résultat:}
+\lstinputlisting[language=sql,firstline=3,lastline=29]{../code/output.sql}
+\subsubsection*{Le prix moyen (/nuit) des differents logements réservés par ville}
+\lstinputlisting[language=sql,firstline=25,lastline=29]{../code/requetes.sql}
+\underline{Résultat:}
+\lstinputlisting[language=sql,firstline=31,lastline=42]{../code/output.sql}
+\subsubsection*{Nombre de logements réservés par ville par type}
+\lstinputlisting[language=sql,firstline=32,lastline=36]{../code/requetes.sql}
+\underline{Résultat:}
+\lstinputlisting[language=sql,firstline=46,lastline=93]{../code/output.sql}
+
+\subsection*{Requêtes analytiques: Offres}
+\subsubsection*{Nombre de logements offerts par des SuperHosts par ville le 2 juillet 2018}
+\lstinputlisting[language=sql,firstline=39,lastline=43]{../code/requetes.sql}
+\underline{Résultat:}
+\lstinputlisting[language=sql,firstline=96,lastline=100]{../code/output.sql}
+\subsubsection*{Le type de logement le plus souvent offert le 2 juillet 2018}
+\lstinputlisting[language=sql,firstline=46,lastline=56]{../code/requetes.sql}
+\underline{Résultat:}
+\lstinputlisting[language=sql,firstline=104,lastline=106]{../code/output.sql}
+\subsubsection*{Le nombre de logements offerts disponibles le weekend par ville le 2 juillet 2018}
+\lstinputlisting[language=sql,firstline=59,lastline=64]{../code/requetes.sql}
+\underline{Résultat:}
+\lstinputlisting[language=sql,firstline=110,lastline=114]{../code/output.sql}
+
 \end{document}
